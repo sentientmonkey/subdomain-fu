@@ -158,4 +158,29 @@ module SubdomainFu
       SubdomainFu.current_domain(request)
     end
   end
+
+  module Mailer
+    def self.included(mailer)
+      mailer.helper_method(:current_subdomain)
+      mailer.helper_method(:current_domain)
+      mailer.alias_method_chain :default_url_options, :subdomain
+    end
+
+    protected
+
+    attr_accessor :current_subdomain
+    attr_writer :current_domain
+
+    def current_domain
+      @current_domain ||= default_url_options[:host]
+    end
+    
+    def default_url_options_with_subdomain
+      options = default_url_options_without_subdomain.dup
+      options[:host] = "#{current_subdomain}.#{options[:host]}" if current_subdomain
+      options
+    end
+
+  end
+
 end

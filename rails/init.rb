@@ -2,5 +2,6 @@
 require 'subdomain-fu' unless defined?(SubdomainFu)
 
 ActionController::Base.send :include, SubdomainFu::Controller
+ActionMailer::Base.send :include, SubdomainFu::Mailer
 
 RAILS_DEFAULT_LOGGER.info("** SubdomainFu: initialized properly")
