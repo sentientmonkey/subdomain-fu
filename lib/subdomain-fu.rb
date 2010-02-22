@@ -177,7 +177,7 @@ module SubdomainFu
     
     def default_url_options_with_subdomain
       options = default_url_options_without_subdomain.dup
-      options[:host] = "#{current_subdomain}.#{options[:host]}" if current_subdomain
+      options[:host] = SubdomainFu.rewrite_host_for_subdomains(current_subdomain, options[:host])
       options
     end
 
